@@ -22,7 +22,7 @@ export const dataSlice = createSlice({
 
     [fechDataAction.fulfilled.type]: (
       state,
-      { payload }: PayloadAction<any>,
+      { payload }: PayloadAction<Array<IDataItem>>,
     ) => {
       state.data = payload;
       let num = 0;

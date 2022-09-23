@@ -10,7 +10,7 @@ export interface IDataItem {
 
 export interface IDataSlice {
   data: Array<IDataItem>;
-  totalNumber: any;
+  totalNumber: number;
   loading: boolean;
   error: AxiosError | null;
 }

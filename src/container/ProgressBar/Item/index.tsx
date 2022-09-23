@@ -22,7 +22,7 @@ const Item: React.FC<IProps> = ({ width, color }) => {
             backgroundColor: color,
           }}
           className={styles.line}
-          key={totalWidth}
+          key={`${totalWidth}${width}`}
         />,
       );
     }
