@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  .wrapper_text {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+
+    .dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+    }
+  }
+}

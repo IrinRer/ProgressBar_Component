@@ -25,9 +25,11 @@ export const dataSlice = createSlice({
       { payload }: PayloadAction<any>,
     ) => {
       state.data = payload;
-      state.totalNumber = payload.reduce(
-        ({ value }, item: IDataItem) => value + item.value,
-      );
+      let num = 0;
+      state.data.forEach(({ value }) => {
+        num += value;
+      });
+      state.totalNumber = num;
       state.loading = false;
     },
 

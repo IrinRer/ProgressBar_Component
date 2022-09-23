@@ -1,6 +1,9 @@
 {
   "data": [
     { "name": "Sold", "color": "#BD1FBE", "value": 677 },
-    { "name": "Got free", "color": "#FC64FF", "value": 23 }
+    { "name": "Got free", "color": "#FC64FF", "value": 23 },
+    { "name": "Bernet", "color": "green", "value": 202 },
+    { "name": "Free float", "color": "gray", "value": 333 },
+    { "name": "Free", "color": "blue", "value": 1 }
   ]
 }
