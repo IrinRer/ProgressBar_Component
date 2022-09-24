@@ -1,70 +1,83 @@
-# Getting Started with Create React App
+## Описание
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Небольшой компонент Progress Bar.
 
-## Available Scripts
+## Технологии
+1. React
+2. TypeScript
+3. Redux (thunk, redux-toolkit)
+4. JSON-server
+5. CSS modules
+6. Axious
 
-In the project directory, you can run:
+## Что было сделано
 
-### `npm start`
+1. JSON-server использовался для создания сервера, к которому будут делаться запросы. Запросы делала с помощью middleware - thunk. Store создавала с помощью Redux-toolkit.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. Базу данных сформирована в соответствие с потребностями.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Есть поле *data*, который содержит массив данных. Например: 
 
-### `npm test`
+``
+ { "name": "Sold", "color": "#BD1FBE", "value": 677 },
+``
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. Вспомогательная функция api, которая позволят создовать объект axios с нужными заголовками.
 
-### `npm run build`
+```
+export const api = (): AxiosInstance => {
+  return axios.create({
+    baseURL: getBackendURL(),
+  });
+};
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+В thunk нужно просто вызывать эту функцию. Это позволяет избежать дублирования кода.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. Прогресс формируется динамически, основываясь на базе данных.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Сначала определяется общее value. Затем находится процент конкретного числа от общего value. 
 
-### `npm run eject`
+Я также определила ширину прогресса бара. 
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Для декстопной версии: ``const WIDTH_LINE_DESKTOP = 1000 as const``.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Для планшетной версии: ``const WIDTH_LINE_TABLE = 600 as const``.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Для мобильной версии: ``const WIDTH_LINE_MOBILE = 300 as const``.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Затем вся эта ширина будет заполняться определенным цветом, который берется из базы данных. Это будет соответствовать прогрессу по определенному полю. Например, если есть тако объект: `` { "name": "Sold", "color": "#BD1FBE", "value": 677 } ``, то в декстопной версии размер прогресс бара будет 1000px и цвет **#BD1FBE** будет занимать примерно половину этого прогресс бара. А если взять такой объект: `` { "name": "Got free", "color": "#FC64FF", "value": 40 } ``, то цвет **#FC64FF** будет занимать очень маленькую часть. 
 
-## Learn More
+Если у объекта поле **value** равно 0, то в прогресс баре такой объект не отображается. Если `` value > 0 ``, например **1**, то я установила, что минимальный размер будет равняться ``10px``. Я решила, что так будет удобнее для пользователя и поможет избежать ошибок, когда есть очень маленькое value, но значение все равно должно отобразиться, так как это не 0. 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Заполнение всей ширины (1000px, если декстоп) происходит с помощью такого функционала.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+while (totalWidth - widthItem > 0) {
+      totalWidth -= widthItem;
+      countDiv.push(
+      ....  
+      );
+    }
+```
+**totalWidth** - 1000px.
 
-### Code Splitting
+**widthItem** - 20px, это ширина одной ячейки.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Как запустить
 
-### Analyzing the Bundle Size
+1. Клонируете репозиторий
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+``git clone https://github.com/IrinRer/ProgressBar_Component.git``
 
-### Making a Progressive Web App
+2. Устанавливаете зависимости
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+``npm i``
 
-### Advanced Configuration
+3. Запускаете проект
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+``npm run dev``
 
-### Deployment
+Данная команда запустит также JSON-server.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Версия node: v14.17.3**
